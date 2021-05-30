@@ -8,7 +8,12 @@
 ###########################################################
 
 from flexbe_core import Behavior, Autonomy, OperatableStateMachine, ConcurrencyContainer, PriorityContainer, Logger
+from flexbe_states.wait_state import WaitState
+from pickit_flexbe_flexbe_states.pickit_check_for_objects_state import PickitCheckForObjectsState
+from pickit_flexbe_flexbe_states.pickit_get_object_keys_state import PickitGetObjectKeysState
 from pickit_flexbe_flexbe_states.pickit_load_product_state import PickitLoadProductState
+from pickit_flexbe_flexbe_states.pickit_load_setup_state import PickitLoadSetupState
+from pickit_flexbe_flexbe_states.pickit_select_object_state import PickitSelectObjectState
 # Additional imports can be added inside the following tags
 # [MANUAL_IMPORT]
 
@@ -43,8 +48,9 @@ class pickit_demoSM(Behavior):
 
 
 	def create(self):
-		# x:646 y:66, x:130 y:365
+		# x:1237 y:42, x:583 y:411
 		_state_machine = OperatableStateMachine(outcomes=['finished', 'failed'])
+		_state_machine.userdata.index = 0
 
 		# Additional creation code can be added inside the following tags
 		# [MANUAL_CREATE]
@@ -53,11 +59,44 @@ class pickit_demoSM(Behavior):
 
 
 		with _state_machine:
-			# x:30 y:40
+			# x:27 y:174
 			OperatableStateMachine.add('LoadProduct',
 										PickitLoadProductState(product_file_name="cylinder"),
-										transitions={'continue': 'finished', 'failed': 'failed'},
+										transitions={'continue': 'LoadSetup', 'failed': 'failed'},
 										autonomy={'continue': Autonomy.Off, 'failed': Autonomy.Off})
+
+			# x:827 y:174
+			OperatableStateMachine.add('GetObjectKeys',
+										PickitGetObjectKeysState(),
+										transitions={'continue': 'Wait', 'failed': 'failed'},
+										autonomy={'continue': Autonomy.Off, 'failed': Autonomy.Off},
+										remapping={'object': 'object', 'object_tf': 'object_tf', 'object_pick_tf': 'object_pick_tf', 'object_post_pick_tf': 'object_post_pick_tf'})
+
+			# x:227 y:174
+			OperatableStateMachine.add('LoadSetup',
+										PickitLoadSetupState(setup_file_name="application_01"),
+										transitions={'continue': 'CheckForObjects', 'failed': 'failed'},
+										autonomy={'continue': Autonomy.Off, 'failed': Autonomy.Off})
+
+			# x:627 y:174
+			OperatableStateMachine.add('SelectObject',
+										PickitSelectObjectState(),
+										transitions={'continue': 'GetObjectKeys', 'failed': 'failed'},
+										autonomy={'continue': Autonomy.Off, 'failed': Autonomy.Off},
+										remapping={'object_array': 'object_array', 'index': 'index', 'object': 'object'})
+
+			# x:649 y:30
+			OperatableStateMachine.add('Wait',
+										WaitState(wait_time=1),
+										transitions={'done': 'CheckForObjects'},
+										autonomy={'done': Autonomy.Off})
+
+			# x:424 y:174
+			OperatableStateMachine.add('CheckForObjects',
+										PickitCheckForObjectsState(),
+										transitions={'continue': 'SelectObject', 'failed': 'failed'},
+										autonomy={'continue': Autonomy.Off, 'failed': Autonomy.Off},
+										remapping={'object_array': 'object_array', 'number_of_objects': 'number_of_objects'})
 
 
 		return _state_machine

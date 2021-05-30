@@ -38,24 +38,25 @@
 
 import rospy
 import copy
-from im_pickit_msgs.srv import LoadConfig
+from im_pickit_msgs.srv import LoadConfig, CheckForObjects
+from im_pickit_msgs.msg import ObjectArray
 from flexbe_core import EventState, Logger
 from flexbe_core.proxy import ProxyActionClient
 
-class PickitLoadProductState(EventState):
+class PickitCheckForObjectsState(EventState):
   '''
-  Loads a product file into the camera
+  Triggers the camera en detecteds the defined objects
 
-  -- product_file_name		string		Name of the product file to load 
-
+  #> object_array       ObjectArray   Array of the detected objects
+  #> number_of_objects      int       Number of valid detected objects
   <= continue 					Given time has passed.
   <= failed 						Failed to load product file.
 
   '''
 
-  def __init__(self, product_file_name):
+  def __init__(self):
     # Declare outcomes, input_keys, and output_keys by calling the super constructor with the corresponding arguments.
-    super(PickitLoadProductState, self).__init__(outcomes = ['continue', 'failed'])
+    super(PickitCheckForObjectsState, self).__init__(outcomes = ['continue', 'failed'], output_keys = ['object_array', 'number_of_objects'])
 
 
     # The constructor is called when building the state machine, not when actually starting the behavior.
@@ -64,19 +65,14 @@ class PickitLoadProductState(EventState):
 
     Logger.loginfo('Waiting for service...')
     try:
-      rospy.wait_for_service('/pickit/configuration/product/load', self.service_timeout)
+      rospy.wait_for_service('/pickit/check_for_objects', self.service_timeout)
     except rospy.ROSException, e:
       Logger.logwarn('Service not up')
       return
-    self.load_product_srv = rospy.ServiceProxy('/pickit/configuration/product/load', LoadConfig)
+    
+    self.detect_srv = rospy.ServiceProxy("/pickit/check_for_objects", CheckForObjects)
+    self.success = True
 
-    try:
-      response = self.load_product_srv(self.product_file_name, True)
-    except rospy.ServiceException as exc:
-      Logger.logwarn('Service did not process request: ' + str(exc))
-      return
-    if response.success:
-      self.success = True
 
   def execute(self, userdata):
 
@@ -85,6 +81,18 @@ class PickitLoadProductState(EventState):
     return 'failed' # One of the outcomes declared above.
 
   def on_enter(self, userdata):
+    self.success = False
+    
+    try:
+      response = detect_srv()
+    except rospy.ServiceException as exc:
+      Logger.logwarn('Service did not process request: ' + str(exc))
+      return
+    if response.objects.status == ObjectArray.STATUS_SUCCESS:
+      userdata.number_of_objects = response.objects.n_valid_objects
+      userdata.object_array = response.objects.objects
+      self.success = True
+    
     # This method is called when the state becomes active, i.e. a transition from another state to this one is taken.
     # It is primarily used to start actions which are associated with this state.
 

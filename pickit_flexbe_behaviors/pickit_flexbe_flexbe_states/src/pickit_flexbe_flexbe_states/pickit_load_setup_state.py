@@ -42,20 +42,20 @@ from im_pickit_msgs.srv import LoadConfig
 from flexbe_core import EventState, Logger
 from flexbe_core.proxy import ProxyActionClient
 
-class PickitLoadProductState(EventState):
+class PickitLoadSetupState(EventState):
   '''
   Loads a product file into the camera
 
-  -- product_file_name		string		Name of the product file to load 
+  -- setup_file_name		string		Name of the setup file to load 
 
   <= continue 					Given time has passed.
   <= failed 						Failed to load product file.
 
   '''
 
-  def __init__(self, product_file_name):
+  def __init__(self, setup_file_name):
     # Declare outcomes, input_keys, and output_keys by calling the super constructor with the corresponding arguments.
-    super(PickitLoadProductState, self).__init__(outcomes = ['continue', 'failed'])
+    super(PickitLoadSetupState, self).__init__(outcomes = ['continue', 'failed'])
 
 
     # The constructor is called when building the state machine, not when actually starting the behavior.
@@ -64,14 +64,14 @@ class PickitLoadProductState(EventState):
 
     Logger.loginfo('Waiting for service...')
     try:
-      rospy.wait_for_service('/pickit/configuration/product/load', self.service_timeout)
+      rospy.wait_for_service('/pickit/configuration/setup/load', self.service_timeout)
     except rospy.ROSException, e:
       Logger.logwarn('Service not up')
       return
-    self.load_product_srv = rospy.ServiceProxy('/pickit/configuration/product/load', LoadConfig)
+    self.lead_setup_srv = rospy.ServiceProxy('/pickit/configuration/setup/load', LoadConfig)
 
     try:
-      response = self.load_product_srv(self.product_file_name, True)
+      response = self.lead_setup_srv(self.setup_file_name, True)
     except rospy.ServiceException as exc:
       Logger.logwarn('Service did not process request: ' + str(exc))
       return
