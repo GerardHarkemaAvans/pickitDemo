@@ -1,0 +1,12 @@
+uint8 METHOD_CAMERA = 1
+uint8 METHOD_DOMINANT_PLANE = 2
+uint8 METHOD_MARKERS = 3
+uint8 METHOD_DETECT_BIN = 4
+
+# Dimensions of the ROI to be taught
+RegionOfInterest roi
+
+uint8 method
+---
+bool success
+string message

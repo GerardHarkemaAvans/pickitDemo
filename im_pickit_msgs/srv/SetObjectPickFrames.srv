@@ -1,0 +1,11 @@
+## Copyright 2019, Pick-it NV.
+## All rights reserved.
+
+uint8 STATUS_SUCCESS = 1
+uint8 STATUS_NO_ACTIVE_MODEL = 10
+uint8 STATUS_INVALID_DATA = 11
+uint8 STATUS_MISSING_REFERENCE_ID = 12
+
+ObjectPickFrame[] pick_frames
+---
+uint8 status

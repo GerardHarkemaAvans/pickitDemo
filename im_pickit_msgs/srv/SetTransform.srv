@@ -1,0 +1,8 @@
+## Copyright Pick-it NV 2020
+
+geometry_msgs/TransformStamped transform
+---
+uint8 STATUS_GENERAL_FAILURE = 0
+uint8 STATUS_SUCCESS = 1
+
+uint8 status

@@ -1,0 +1,13 @@
+# Copyright 2020, Pick-it NV.
+# All rights reserved.
+
+string source
+string destination
+---
+uint8 STATUS_FAILURE = 0
+uint8 STATUS_SUCCESS = 1
+uint8 STATUS_SOURCE_MISSING = 2
+uint8 STATUS_DESTINATION_EXISTS = 3
+uint8 STATUS_INVALID_FILENAME = 4
+
+uint8 status

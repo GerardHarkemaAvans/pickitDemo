@@ -1,0 +1,6 @@
+float64   scaling_factor # Scaling appllied when converting from CAD to point cloud
+string    path
+uint32    model_id
+---
+bool      success # indicate successful run of triggered service
+string    message # informational, e.g. for error messages

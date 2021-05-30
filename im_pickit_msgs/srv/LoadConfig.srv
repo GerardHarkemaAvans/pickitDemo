@@ -1,0 +1,9 @@
+uint8 CONFIG_SETUP = 1
+uint8 CONFIG_PRODUCT = 2
+
+uint8     config_type       # Type of the config to load.
+string    path              # Path (absolute or relative to the corresponding config folder) of the config file.
+bool      set_persistent    # If true, saves the given configuration so it is loaded after the system reboots.
+---
+bool      success           # indicate successful run of triggered service
+string    message           # informational, e.g. for error messages

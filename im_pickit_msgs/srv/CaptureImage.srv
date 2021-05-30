@@ -1,0 +1,15 @@
+# Copyright 2019, Pick-it NV.
+# All rights reserved.
+
+---
+# True if image capture was successful.
+bool success
+
+# Image capture timestamp.
+# To use this field from another computer, the clocks must be synchronized.
+time stamp
+
+# Image capture duration: Since image capture time to sending the respose.
+# This is an alternative to using the stamp for systems with non-synchronized
+# clocks, but neglects service calling latency.
+duration capture_duration

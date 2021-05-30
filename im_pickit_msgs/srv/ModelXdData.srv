@@ -1,0 +1,7 @@
+## Copyright Pick-it NV 2018
+
+bool      model_type
+string    path
+---
+bool      success # indicate successful run of triggered service
+string    message # informational, e.g. for error messages
