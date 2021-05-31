@@ -38,7 +38,7 @@
 
 import rospy
 import copy
-from im_pickit_msgs.srv import LoadConfig, SelectObject
+from im_pickit_msgs.srv import LoadConfig
 from im_pickit_msgs.msg import ObjectArray, Object
 from flexbe_core import EventState, Logger
 from flexbe_core.proxy import ProxyActionClient

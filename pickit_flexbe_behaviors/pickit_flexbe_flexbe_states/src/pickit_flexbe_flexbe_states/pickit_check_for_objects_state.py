@@ -37,7 +37,6 @@
 # Version: 1.0
 
 import rospy
-import copy
 from im_pickit_msgs.srv import LoadConfig, CheckForObjects
 from im_pickit_msgs.msg import ObjectArray
 from flexbe_core import EventState, Logger
