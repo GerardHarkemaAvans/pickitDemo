@@ -99,14 +99,6 @@
   </joint>
 -->
 
-  
-  <!-- logical camera 1  model -->
-  <xacro:include filename="$(find demo_support)/urdf/logical_camera/logical_camera.urdf.xacro"/>
-  <xacro:logical_camera_urdf prefix="logical_camera1_" logical_camera_parent="world">
-    <origin xyz="0 0 1.0" rpy="0 1.5708 1.5708"/>
-  </xacro:logical_camera_urdf>
-
-
   <!-- robot1 to pedestal. -->
   <joint name="robot1_to_mountingplate_link" type="fixed">
   <origin xyz="0.0 0.0 0.01" rpy="0 0 0" />
