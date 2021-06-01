@@ -113,4 +113,11 @@
   </joint>
 
 
+  <xacro:include filename="$(find pickit_model)/camera_description/urdf/pickit_camera_description.xacro"/>
+  
+  <joint name="world_to camera" type="fixed">
+    <origin xyz="0 0 0.85" rpy="0 1.57 3.14"/>
+    <parent link="world" />
+    <child link="CAM_30703_link" />
+  </joint>
 </robot>

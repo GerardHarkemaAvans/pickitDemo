@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<robot name="robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <xacro:include filename="$(find pickit_model)/camera_description/urdf/pickit_camera_description.xacro"/>
+
+  <!-- world -->
+  <link name="world" />
+  
+  <joint name="world_to camera" type="fixed">
+    <origin xyz="0 0 0" />
+    <parent link="world" />
+    <child link="CAM_30703_link" />
+  </joint>
+</robot>

@@ -16,6 +16,7 @@ from pickit_flexbe_flexbe_states.pickit_load_product_state import PickitLoadProd
 from pickit_flexbe_flexbe_states.pickit_load_setup_state import PickitLoadSetupState
 from pickit_flexbe_flexbe_states.pickit_process_image_state import PickitProcessImageState
 from pickit_flexbe_flexbe_states.pickit_select_object_state import PickitSelectObjectState
+from pickit_flexbe_flexbe_states.tf2_transform_broadcaster_state import tf2TransformBroadcasterState
 # Additional imports can be added inside the following tags
 # [MANUAL_IMPORT]
 
@@ -123,9 +124,16 @@ class pickit_demo_capture_image_and_process_imageSM(Behavior):
 			# x:1032 y:460
 			OperatableStateMachine.add('object_pick_tf',
 										MessageState(),
-										transitions={'continue': 'Wait'},
+										transitions={'continue': 'BroadcastTransform'},
 										autonomy={'continue': Autonomy.Off},
 										remapping={'message': 'object_pick_tf'})
+
+			# x:1018 y:541
+			OperatableStateMachine.add('BroadcastTransform',
+										tf2TransformBroadcasterState(),
+										transitions={'continue': 'Wait', 'failed': 'failed'},
+										autonomy={'continue': Autonomy.Off, 'failed': Autonomy.Off},
+										remapping={'transform': 'object_pick_tf'})
 
 
 		return _state_machine

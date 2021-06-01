@@ -29,7 +29,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: Image
+    SyncSource: ""
 Preferences:
   PromptSaveOnExit: true
 Toolbars:
@@ -60,47 +60,33 @@ Visualization Manager:
       Frame Timeout: 15
       Frames:
         All Enabled: false
-        CAM_30703/CAM_30703_depth_frame:
+        CAM_30703_depth_frame:
           Value: false
-        CAM_30703/CAM_30703_depth_optical_frame:
+        CAM_30703_depth_optical_frame:
           Value: false
-        CAM_30703/CAM_30703_link:
+        CAM_30703_link:
           Value: false
-        CAM_30703/CAM_30703_rgb_frame:
+        CAM_30703_rgb_frame:
           Value: false
-        CAM_30703/CAM_30703_rgb_optical_frame:
-          Value: false
-        CAM_30703/camera_display_link:
-          Value: false
-        CAM_30703/camera_housing_link:
-          Value: false
-        CAM_30703/camera_rubber_ring_link:
-          Value: false
-        CAM_30703/gazebo_optical_frame:
-          Value: false
-        CAM_30703/lense_1:
-          Value: false
-        CAM_30703/lense_2:
-          Value: false
-        CAM_30703/lense_3:
+        CAM_30703_rgb_optical_frame:
           Value: false
         baseplate_link:
           Value: false
+        camera_display_link:
+          Value: false
+        camera_housing_link:
+          Value: false
+        camera_rubber_ring_link:
+          Value: false
+        gazebo_optical_frame:
+          Value: false
+        lense_1:
+          Value: false
+        lense_2:
+          Value: false
+        lense_3:
+          Value: false
         mountingplate_link:
-          Value: false
-        pickit/camera_rgb_optical_frame:
-          Value: false
-        pickit/reference:
-          Value: true
-        pickit/robot_base:
-          Value: false
-        pickit/robot_ee:
-          Value: false
-        pickit/teach_model_camera_frame:
-          Value: false
-        pickit/teach_model_cropbox_frame:
-          Value: false
-        pickit/teach_model_pick_frame_1:
           Value: false
         pickit/world:
           Value: true
@@ -137,6 +123,25 @@ Visualization Manager:
       Show Names: true
       Tree:
         world:
+          CAM_30703_link:
+            CAM_30703_depth_frame:
+              CAM_30703_depth_optical_frame:
+                {}
+            CAM_30703_rgb_frame:
+              CAM_30703_rgb_optical_frame:
+                {}
+            camera_display_link:
+              camera_housing_link:
+                camera_rubber_ring_link:
+                  {}
+              lense_1:
+                {}
+              lense_2:
+                {}
+              lense_3:
+                {}
+            gazebo_optical_frame:
+              {}
           baseplate_link:
             mountingplate_link:
               robot1_base_link:
@@ -155,36 +160,7 @@ Visualization Manager:
                                 vacuum_gripper1_suction_cup:
                                   {}
           pickit/world:
-            pickit/robot_base:
-              CAM_30703/CAM_30703_link:
-                CAM_30703/CAM_30703_depth_frame:
-                  CAM_30703/CAM_30703_depth_optical_frame:
-                    {}
-                CAM_30703/CAM_30703_rgb_frame:
-                  CAM_30703/CAM_30703_rgb_optical_frame:
-                    pickit/camera_rgb_optical_frame:
-                      {}
-                    pickit/reference:
-                      {}
-                CAM_30703/camera_display_link:
-                  CAM_30703/camera_housing_link:
-                    CAM_30703/camera_rubber_ring_link:
-                      {}
-                  CAM_30703/lense_1:
-                    {}
-                  CAM_30703/lense_2:
-                    {}
-                  CAM_30703/lense_3:
-                    {}
-                CAM_30703/gazebo_optical_frame:
-                  {}
-              pickit/robot_ee:
-                {}
-            pickit/teach_model_camera_frame:
-              pickit/teach_model_cropbox_frame:
-                {}
-              pickit/teach_model_pick_frame_1:
-                {}
+            {}
       Update Interval: 0
       Value: true
     - Alpha: 1
@@ -193,11 +169,64 @@ Visualization Manager:
       Enabled: true
       Links:
         All Links Enabled: true
+        CAM_30703_depth_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        CAM_30703_depth_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        CAM_30703_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        CAM_30703_rgb_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        CAM_30703_rgb_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
         Expand Joint Details: false
         Expand Link Details: false
         Expand Tree: false
         Link Tree Style: Links in Alphabetic Order
         baseplate_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        camera_display_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        camera_housing_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        camera_rubber_ring_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        gazebo_optical_frame:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+        lense_1:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        lense_2:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        lense_3:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -363,25 +392,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 3.2597625255584717
+      Distance: 2.036283254623413
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 0.23015625774860382
-        Y: -0.8102384209632874
-        Z: 0.4233931303024292
+        X: 0.1481950283050537
+        Y: -0.9086346626281738
+        Z: 0.5490779876708984
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: -0.005202155560255051
+      Pitch: 0.10479786992073059
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 1.7554152011871338
+      Yaw: 1.775415301322937
     Saved: ~
 Window Geometry:
   Displays:
