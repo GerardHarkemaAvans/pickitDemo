@@ -37,14 +37,14 @@
 # Version: 1.0
 
 import rospy
-from im_pickit_msgs.srv import LoadConfig, CheckForObjects
+from im_pickit_msgs.srv import LoadConfig, ProcessImage
 from im_pickit_msgs.msg import ObjectArray
 from flexbe_core import EventState, Logger
 from flexbe_core.proxy import ProxyActionClient
 
-class PickitCheckForObjectsState(EventState):
+class PickitProcessImageState(EventState):
   '''
-  Captures the camera image and processing the image, resulting al list of detected defined objects
+  pProcessing captured the image, resulting al list of detected defined objects
 
   #> object_array       ObjectArray   Array of the detected objects
   #> number_of_objects      int       Number of valid detected objects
@@ -55,7 +55,7 @@ class PickitCheckForObjectsState(EventState):
 
   def __init__(self):
     # Declare outcomes, input_keys, and output_keys by calling the super constructor with the corresponding arguments.
-    super(PickitCheckForObjectsState, self).__init__(outcomes = ['continue', 'failed'], output_keys = ['object_array', 'number_of_objects'])
+    super(PickitProcessImageState, self).__init__(outcomes = ['continue', 'failed'], output_keys = ['object_array', 'number_of_objects'])
 
 
     # The constructor is called when building the state machine, not when actually starting the behavior.
@@ -65,12 +65,12 @@ class PickitCheckForObjectsState(EventState):
 
     Logger.loginfo('Waiting for service...')
     try:
-      rospy.wait_for_service('/pickit/check_for_objects', self.service_timeout)
+      rospy.wait_for_service('/pickit/process_image', self.service_timeout)
     except rospy.ROSException, e:
-      Logger.logwarn('Pickit: Check for objects service not up')
+      Logger.logwarn('Pickit: Process Image Service not up')
       return
     
-    self.detect_srv = rospy.ServiceProxy("/pickit/check_for_objects", CheckForObjects)
+    self.process_srv = rospy.ServiceProxy("/pickit/process_image", ProcessImage)
     self.service_up = True
 
 
@@ -88,7 +88,7 @@ class PickitCheckForObjectsState(EventState):
     
     if self.service_up:
       try:
-        response = self.detect_srv()
+        response = self.process_srv()
       except rospy.ServiceException as exc:
         Logger.logwarn('Pickit: Service did not process request: ' + str(exc))
         return

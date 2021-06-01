@@ -51,7 +51,7 @@
   </node>
 
    <node name="static_tf_brdc_pickit_robot" type="static_transform_publisher"
-      args="0 0 1.5 0 0 3.14 world pickit/robot_base" pkg="tf2_ros" />
+      args="0 0 0.85 0 0 3.14 world pickit/world" pkg="tf2_ros" />
 
 
   <!-- Start RVIZ with Gazebo if necessary -->

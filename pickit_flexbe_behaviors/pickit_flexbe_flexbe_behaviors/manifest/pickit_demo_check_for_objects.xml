@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<behavior name="pickit_demo_check_for_objects">
+
+	<executable package_path="pickit_flexbe_flexbe_behaviors.pickit_demo_check_for_objects_sm" class="pickit_demo_check_for_objectsSM" />
+	<tagstring></tagstring>
+	<author>Gerard Harkema</author>
+	<date>Sun May 30 2021</date>
+	<description>
+		Demo of a pickit application
+	</description>
+
+
+	<!-- Contained Behaviors -->
+
+	<!-- Available Parameters -->
+
+</behavior>

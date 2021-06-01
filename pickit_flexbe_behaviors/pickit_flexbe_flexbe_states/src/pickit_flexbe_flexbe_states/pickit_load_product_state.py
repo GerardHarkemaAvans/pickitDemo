@@ -66,14 +66,14 @@ class PickitLoadProductState(EventState):
     try:
       rospy.wait_for_service('/pickit/configuration/product/load', self.service_timeout)
     except rospy.ROSException, e:
-      Logger.logwarn('Service not up')
+      Logger.logwarn('Pickit: Load product service not up')
       return
     self.load_product_srv = rospy.ServiceProxy('/pickit/configuration/product/load', LoadConfig)
 
     try:
       response = self.load_product_srv(self.product_file_name, True)
     except rospy.ServiceException as exc:
-      Logger.logwarn('Service did not process request: ' + str(exc))
+      Logger.logwarn('Pickit: Service did not process request: ' + str(exc))
       return
     if response.success:
       self.success = True

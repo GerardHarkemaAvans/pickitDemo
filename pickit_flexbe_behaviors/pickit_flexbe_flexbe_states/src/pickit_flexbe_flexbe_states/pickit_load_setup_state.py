@@ -66,14 +66,14 @@ class PickitLoadSetupState(EventState):
     try:
       rospy.wait_for_service('/pickit/configuration/setup/load', self.service_timeout)
     except rospy.ROSException, e:
-      Logger.logwarn('Service not up')
+      Logger.logwarn('Pickit: Load config service not up')
       return
     self.lead_setup_srv = rospy.ServiceProxy('/pickit/configuration/setup/load', LoadConfig)
 
     try:
       response = self.lead_setup_srv(self.setup_file_name, True)
     except rospy.ServiceException as exc:
-      Logger.logwarn('Service did not process request: ' + str(exc))
+      Logger.logwarn('Pickit: Service did not process request: ' + str(exc))
       return
     if response.success:
       self.success = True
