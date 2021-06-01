@@ -59,11 +59,12 @@ class pickit_demoSM(Behavior):
 
 
 		with _state_machine:
-			# x:27 y:174
-			OperatableStateMachine.add('LoadProduct',
-										PickitLoadProductState(product_file_name="cylinder"),
-										transitions={'continue': 'LoadSetup', 'failed': 'failed'},
-										autonomy={'continue': Autonomy.Off, 'failed': Autonomy.Off})
+			# x:424 y:174
+			OperatableStateMachine.add('CheckForObjects',
+										PickitCheckForObjectsState(),
+										transitions={'continue': 'SelectObject', 'failed': 'failed'},
+										autonomy={'continue': Autonomy.Off, 'failed': Autonomy.Off},
+										remapping={'object_array': 'object_array', 'number_of_objects': 'number_of_objects'})
 
 			# x:827 y:174
 			OperatableStateMachine.add('GetObjectKeys',
@@ -71,6 +72,12 @@ class pickit_demoSM(Behavior):
 										transitions={'continue': 'Wait', 'failed': 'failed'},
 										autonomy={'continue': Autonomy.Off, 'failed': Autonomy.Off},
 										remapping={'object': 'object', 'object_tf': 'object_tf', 'object_pick_tf': 'object_pick_tf', 'object_post_pick_tf': 'object_post_pick_tf'})
+
+			# x:27 y:174
+			OperatableStateMachine.add('LoadProduct',
+										PickitLoadProductState(product_file_name="cylinder"),
+										transitions={'continue': 'LoadSetup', 'failed': 'failed'},
+										autonomy={'continue': Autonomy.Off, 'failed': Autonomy.Off})
 
 			# x:227 y:174
 			OperatableStateMachine.add('LoadSetup',
@@ -90,13 +97,6 @@ class pickit_demoSM(Behavior):
 										WaitState(wait_time=1),
 										transitions={'done': 'CheckForObjects'},
 										autonomy={'done': Autonomy.Off})
-
-			# x:424 y:174
-			OperatableStateMachine.add('CheckForObjects',
-										PickitCheckForObjectsState(),
-										transitions={'continue': 'SelectObject', 'failed': 'failed'},
-										autonomy={'continue': Autonomy.Off, 'failed': Autonomy.Off},
-										remapping={'object_array': 'object_array', 'number_of_objects': 'number_of_objects'})
 
 
 		return _state_machine

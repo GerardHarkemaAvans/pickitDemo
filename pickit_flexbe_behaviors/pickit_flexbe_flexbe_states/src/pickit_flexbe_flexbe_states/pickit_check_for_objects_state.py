@@ -44,7 +44,7 @@ from flexbe_core.proxy import ProxyActionClient
 
 class PickitCheckForObjectsState(EventState):
   '''
-  Triggers the camera en detecteds the defined objects
+  Captures the camera image and processing the image, resulting al list of detected defined objects
 
   #> object_array       ObjectArray   Array of the detected objects
   #> number_of_objects      int       Number of valid detected objects
@@ -61,6 +61,7 @@ class PickitCheckForObjectsState(EventState):
     # The constructor is called when building the state machine, not when actually starting the behavior.
     self.service_timeout = 5.0
     self.success = False
+    self.service_up = False
 
     Logger.loginfo('Waiting for service...')
     try:
@@ -70,10 +71,13 @@ class PickitCheckForObjectsState(EventState):
       return
     
     self.detect_srv = rospy.ServiceProxy("/pickit/check_for_objects", CheckForObjects)
-    self.success = True
+    self.service_up = True
 
 
   def execute(self, userdata):
+
+    # This method is called when the state becomes active, i.e. a transition from another state to this one is taken.
+    # It is primarily used to start actions which are associated with this state.
 
     if self.success:
       return 'continue'
@@ -82,23 +86,17 @@ class PickitCheckForObjectsState(EventState):
   def on_enter(self, userdata):
     self.success = False
     
-    try:
-      response = detect_srv()
-    except rospy.ServiceException as exc:
-      Logger.logwarn('Service did not process request: ' + str(exc))
-      return
-    if response.objects.status == ObjectArray.STATUS_SUCCESS:
-      userdata.number_of_objects = response.objects.n_valid_objects
-      userdata.object_array = response.objects.objects
-      self.success = True
+    if self.service_up:
+      try:
+        response = detect_srv()
+      except rospy.ServiceException as exc:
+        Logger.logwarn('Service did not process request: ' + str(exc))
+        return
+      if response.objects.status == ObjectArray.STATUS_SUCCESS:
+        userdata.number_of_objects = response.objects.n_valid_objects
+        userdata.object_array = response.objects.objects
+        self.success = True
     
-    # This method is called when the state becomes active, i.e. a transition from another state to this one is taken.
-    # It is primarily used to start actions which are associated with this state.
-
-    # The following code is just for illustrating how the behavior logger works.
-    # Text logged by the behavior logger is sent to the operator and displayed in the GUI.
-
-    pass # Nothing to do in this example.
 
   def on_exit(self, userdata):
     # This method is called when an outcome is returned and another state gets active.
